@@ -1,6 +1,9 @@
 
 # Check in/out for attendance on [hr.my](https://hr.my)
 
+If you are like me and hate/forget to check in/out for your attendance, and if you are using [hr.my](https://hr.my), then this is for you.
+A tool the automates check in/out for attendance on [hr.my](https://hr.my)
+
 * [Installation](#installation)
 * [Configuration](#configuration)
   * [Email and Passwod](#email-and-password)
