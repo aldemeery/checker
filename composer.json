@@ -1,0 +1,37 @@
+{
+    "name": "aldemeery/checker",
+    "description": "A lightweigt tool that checks in/out for your attendance on [hr.my](https://hr.my)",
+    "keywords": ["hr.my", "check-in", "check-out", "auto", "checker", "attendance"],
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Osama Aldemeery",
+            "email": "aldemeery@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": [
+            "helpers.php"
+        ]
+    },
+    "require": {
+        "php": "^5.6",
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "composer du -o"
+        ],
+        "start": [
+            "php index.php"
+        ]
+    }
+}
