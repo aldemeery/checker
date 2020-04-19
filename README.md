@@ -11,6 +11,7 @@ A tool the automates check in/out for attendance on [hr.my](https://hr.my)
   * [Timezone](#timezone)
   * [Holidays](#holidays)
   * [Attendance Mode](#attendance-mode)
+  * [Notifications](#notifications)
 
 ## Installation
 
@@ -84,6 +85,19 @@ Normally an employee does not show up every day at the exact same moment...*(unl
     'mode' => 'normal',
 ```
 
+### Notifications
+You can recieve slack notifications about next check in/out time, and when a check in/out is performed.
+
+To do so, you only need to [create an incoming webhook](https://my.slack.com/services/new/incoming-webhook) on your slack account, then take the webhook URL and add it in the config file.
+
+```php
+    'slack' => [
+        'hook' => "https://hooks.slack.com/services/...",
+        'settings' => [
+            // ...
+        ],
+    ],
+```
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.

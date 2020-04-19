@@ -21,5 +21,12 @@ return [
         'friday',
         'saturday',
         // 2020-08-02
-    ]
+    ],
+
+    'slack' => [
+        'hook' => "",
+        'settings' => [
+            // ...
+        ],
+    ],
 ];

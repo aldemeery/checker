@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\Checker as CheckerInterface;
+use App\Contracts\Notifier;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJarInterface;
 
@@ -19,6 +20,11 @@ class Checker implements CheckerInterface
     private $jar;
 
     /**
+     * @var \App\Contracts\Notifier|null Notifier instance.
+     */
+    private $notifier;
+
+    /**
      * Next action, "check-in" or "check-out".
      *
      * @var string
@@ -30,11 +36,13 @@ class Checker implements CheckerInterface
      *
      * @param \GuzzleHttp\ClientInterface $client Http client instance.
      * @param \GuzzleHttp\Cookie\CookieJarInterface $jar Cookie jar.
+     * @param \App\Contracts\Notifier|null $notifier Notifier instance.
      */
-    public function __construct(ClientInterface $client, CookieJarInterface $jar)
+    public function __construct(ClientInterface $client, CookieJarInterface $jar, ?Notifier $notifier = null)
     {
         $this->client = $client;
         $this->jar = $jar;
+        $this->notifier = $notifier;
     }
 
     /**
@@ -98,7 +106,12 @@ class Checker implements CheckerInterface
     public function run()
     {
         $timestamp = $this->getNextTimestamp();
-        echo "Next action at: " . date("Y-m-d: h:i:s", $timestamp) . PHP_EOL;
+        $msg = "Next action at: " . date("Y-m-d: h:i:s", $timestamp) . PHP_EOL;
+        echo $msg;
+
+        if ($this->notifier) {
+            $this->notifier->notify(config('email') . ": " . $msg);
+        }
 
         time_sleep_until($timestamp);
 
@@ -108,6 +121,11 @@ class Checker implements CheckerInterface
         }
 
         $this->updateNext();
+
+        if ($this->notifier) {
+            $this->notifier->notify(config('email') . ": " . "An action has been taken.");
+        }
+
         $this->run();
     }
 
