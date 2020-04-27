@@ -106,25 +106,21 @@ class Checker implements CheckerInterface
     public function run()
     {
         $timestamp = $this->getNextTimestamp();
-        $msg = "Next action at: " . date("Y-m-d: h:i:s", $timestamp) . PHP_EOL;
+        $msg = "Next {$this->getNext()} at: " . date("Y-m-d: h:i:s", $timestamp) . PHP_EOL;
         echo $msg;
 
         if ($this->notifier) {
             $this->notifier->notify(config('email') . ": " . $msg);
         }
 
-        time_sleep_until($timestamp);
-
-        if (!$this->inHoliday()) {
-            $this->login();
-            $this->checkInOrOut();
+        while (true) {
+            if (time() == $timestamp) {
+                $this->takeAction();
+                break;
+            }
         }
 
         $this->updateNext();
-
-        if ($this->notifier) {
-            $this->notifier->notify(config('email') . ": " . "An action has been taken.");
-        }
 
         $this->run();
     }
@@ -273,5 +269,25 @@ class Checker implements CheckerInterface
         }
 
         return false;
+    }
+
+    /**
+     * Perform check in/out and other related actions if any.
+     *
+     * @return void
+     */
+    private function takeAction()
+    {
+        if (!$this->inHoliday()) {
+            $this->login();
+            $this->checkInOrOut();
+            $msg = $this->getNext() . " has been performed. (" . date("Y-m-d: h:i:s") . ")";
+        } else {
+            $msg = "Skipping {$this->getNext()} because of holiday.";
+        }
+
+        if ($this->notifier) {
+            $this->notifier->notify(config('email') . ": " . $msg);
+        }
     }
 }

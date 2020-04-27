@@ -15,7 +15,7 @@ A tool the automates check in/out for attendance on [hr.my](https://hr.my)
 
 ## Installation
 
-Cone...[configure](#configuration)...install dependencies...start:
+Clone...[configure](#configuration)...install dependencies...start:
 
 ``` bash
 git clone https://github.com/aldemeery/checker.git
@@ -68,7 +68,7 @@ In these days you don't ckeck in/out
     'holidays' => [
         'friday',
         'saturday',
-        '2020-08-02' // dates must be in Y-m-d forma
+        '2020-08-02' // dates must be in Y-m-d format
     ]
 ```
 ### Attendance mode
